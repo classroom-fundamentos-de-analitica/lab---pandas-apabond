@@ -247,33 +247,31 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    dictionary = {}
+    diccionario = {}
     for i in range (len(tbl2)):
-        if tbl2.loc[i]["_c0"] in dictionary:
-            dictionary[tbl2.loc[i]["_c0"]] = dictionary[tbl2.loc[i]["_c0"]] + "," + tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
+        if tbl2.loc[i]["_c0"] in diccionario:
+            diccionario[tbl2.loc[i]["_c0"]] = diccionario[tbl2.loc[i]["_c0"]] + "," + tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
         else:
-            dict[tbl2.loc[i]["_c0"]] = tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
+            diccionario[tbl2.loc[i]["_c0"]] = tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
             
-    for key,value in dictionary.items():
-        lista = value.split(",")
+    for k,v in diccionario.items():
+        lista = v.split(",")
         lista.sort()
-        dict[k] = lista
-    table1 = pd.DataFrame({"_c0": dictionary.keys(),
-            "_c5a" : dictionary.values()})
+        diccionario[k] = lista
+    df = pd.DataFrame({"_c0": diccionario.keys(),
+            "_c5a" : diccionario.values()})
 
     lista = []
-    
-    for valor in table1["_c5a"]:
+    for valor in df["_c5a"]:
         string = "hola"
         for i in valor:
             string = string + ',' + i
         lista.append(string)
-        
-    table1['_c5'] = lista
-    table1['_c5'] = table1['_c5'].str.replace('hola,','')
-    del table1['_c5a']
+    df['_c5'] = lista
+    df['_c5'] = df['_c5'].str.replace('hola,','')
+    del df['_c5a']
 
-    return table1
+    return df
     
 
 
