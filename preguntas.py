@@ -68,8 +68,8 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    prom=tbl0[["_c1","_c2"]].groupby(by=["_c1"]).mean().squeeze()
-    return
+    prom = tbl0[["_c1","_c2"]].groupby(by=["_c1"]).mean().squeeze()
+    return prom
 
 
 def pregunta_05():
@@ -86,8 +86,8 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    vmax=tbl0[["_c1","_c2"]].groupby(by=["_c1"]).max().squeeze()
-    return
+    vmax = tbl0[["_c1","_c2"]].groupby(by=["_c1"]).max().squeeze()
+    return vmax
 
 
 def pregunta_06():
