@@ -186,17 +186,11 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    dataf = pd.DataFrame()
-    for letra in tbl0["_c1"].unique():
-        df = np.where(tbl0["_c1"]==letra,tbl0["_c2"],"")
-        df = np.delete(df, np.where(df == ""))
-        string = ""
-        for item in list(np.sort(df, axis=0)):
-            string = string + str(item) + ":"
-        string = string[:-1]
-        temp = pd.DataFrame({"_c0":[letra], "_c1": string})
-        dataf = dataf.append(temp, ignore_index=True)
-    return dataf.sort_values("_c0").reset_index().drop("index", axis =1)
+    tabla = tbl0[["_c1", "_c2"]].copy().set_index("_c2").groupby("_c1")
+    proc = {g:":".join(sorted([str(x) for x in c])) for g,c in tabla.groups.items()}
+    
+    
+    return pd.DataFrame({"_c1":proc.keys(), "_c2":proc.values()}).set_index("_c1")
     
         
 
