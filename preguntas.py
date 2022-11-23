@@ -22,7 +22,8 @@ def pregunta_01():
     40
 
     """
-    return
+    numrow=len(tbl0.index)
+    return numrow
 
 
 def pregunta_02():
@@ -33,7 +34,8 @@ def pregunta_02():
     4
 
     """
-    return
+    numcolumn=len(tbl0.columns)
+    return numcolumn
 
 
 def pregunta_03():
@@ -50,7 +52,8 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    return
+    num_letters=tbl0["_c1"].groupby(tbl0["_c1"]).size()
+    return num_letters
 
 
 def pregunta_04():
