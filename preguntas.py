@@ -197,7 +197,7 @@ def pregunta_10():
         string = string[:-1]
         temp = pd.DataFrame({"_c0":[letra], "_c1": string})
         dataf = dataf.append(temp, ignore_index=True)
-    table = dataf.sort_values("_c0").reset_index().drop("index", axis =1)    
+            
     return dataf.sort_values("_c0").reset_index().drop("index", axis =1)
     
 
