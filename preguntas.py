@@ -216,7 +216,8 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    dataf = pd.DataFrame()
+    tb = pd.DataFrame()
+    
     for letra in tbl1["_c0"].unique():
         df = np.where(tbl1["_c0"]==letra,tbl1["_c4"],"")
         df = np.delete(df, np.where(df == ""))
@@ -225,9 +226,9 @@ def pregunta_11():
             string = string + str(item) + ","
         string = string[:-1]
         temp = pd.DataFrame({"_c0":[letra], "_c4": string})
-        dataf = dataf.append(temp, ignore_index=True)
+        tb = tb.append(temp, ignore_index=True)
 
-    return dataf
+    return tb
     
    
 
