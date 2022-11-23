@@ -68,6 +68,7 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
+    prom=tbl0[["_c1","_c2"]].groupby(by=["_c1"]).mean().squeeze()
     return
 
 
@@ -85,6 +86,7 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
+    vmax=tbl0[["_c1","_c2"]].groupby(by=["_c1"]).max().squeeze()
     return
 
 
@@ -97,7 +99,16 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
+    l = []
+    
+    for item in tbl1["_c4"]:
+        if item.upper() not in l:
+            l.append(item.upper())
+            
+    l.sort()
+    
+    return l
+    
 
 
 def pregunta_07():
@@ -113,7 +124,9 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
+    sum_c2=tbl0[["_c1","_c2"]].groupby(by=["_c1"]).sum().squeeze()
+    
+    return sum_c2
 
 
 def pregunta_08():
@@ -131,7 +144,10 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
+    sum_column=tbl0["_c0"] + tbl0["_c2"]
+    tbl0["suma"] = sum_column
+    
+    return tbl0
 
 
 def pregunta_09():
@@ -149,7 +165,10 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    return
+    year = tbl0['_c3'].str.slice(0, 4)
+    tbl0['year'] = year
+    
+    return tbl0
 
 
 def pregunta_10():
@@ -166,8 +185,20 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    Table = pd.DataFrame()
+    for letra in tbl0["_c1"].unique():
+        df = np.where(tbl0["_c1"]==letra,tbl0["_c2"],"")
+        df = np.delete(df, np.where(df == ""))
+        string = ""
+        for item in list(np.sort(df, axis=0)):
+            string = string + str(item) + ":"
+        string = string[:-1]
+        temp = pd.DataFrame({"_c0":[letra], "_c1": string})
+        Table = Table.append(temp, ignore_index=True)
+        Table = Table.sort_values("_c0").reset_index().drop("index", axis =1)
+    return Table
 
+    
 
 def pregunta_11():
     """
@@ -185,7 +216,17 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    table = pd.DataFrame()
+    for letra in tbl1["_c0"].unique():
+        df = np.where(tbl1["_c0"]==letra,tbl1["_c4"],"")
+        df = np.delete(df, np.where(df == ""))
+        string = ""
+        for item in list(np.sort(df, axis=0)):
+            string = string + str(item) + ","
+        string = string[:-1]
+        temp = pd.DataFrame({"_c0":[letra], "_c4": string})
+        table = table.append(temp, ignore_index=True)
+    return table
 
 
 def pregunta_12():
@@ -203,7 +244,34 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    dict = {}
+    for i in range (len(tbl2)):
+        if tbl2.loc[i]["_c0"] in dict:
+            dict[tbl2.loc[i]["_c0"]] = dict[tbl2.loc[i]["_c0"]] + "," + tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
+        else:
+            dict[tbl2.loc[i]["_c0"]] = tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
+            
+    for key,value in dict.items():
+        lista = value.split(",")
+        lista.sort()
+        dict[k] = lista
+    table1 = pd.DataFrame({"_c0": dict.keys(),
+            "_c5a" : dict.values()})
+
+    lista = []
+    
+    for valor in table1["_c5a"]:
+        string = "hola"
+        for i in valor:
+            string = string + ',' + i
+        lista.append(string)
+        
+    table1['_c5'] = lista
+    table1['_c5'] = table1['_c5'].str.replace('hola,','')
+    del table1['_c5a']
+
+    return table1
+    
 
 
 def pregunta_13():
@@ -220,4 +288,6 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    sum_c5 = tbl0.merge(tbl2, right_on = '_c0', left_on = '_c0').groupby('_c1').sum()['_c5b']
+    
+    return sum_c5
