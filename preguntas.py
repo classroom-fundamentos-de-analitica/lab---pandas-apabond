@@ -185,7 +185,7 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    Table = pd.DataFrame()
+    dataf = pd.DataFrame()
     for letra in tbl0["_c1"].unique():
         df = np.where(tbl0["_c1"]==letra,tbl0["_c2"],"")
         df = np.delete(df, np.where(df == ""))
@@ -194,9 +194,9 @@ def pregunta_10():
             string = string + str(item) + ":"
         string = string[:-1]
         temp = pd.DataFrame({"_c0":[letra], "_c1": string})
-        Table = Table.append(temp, ignore_index=True)
-        Table = Table.sort_values("_c0").reset_index().drop("index", axis =1)
-    return Table
+        dataf = dataf.append(temp, ignore_index=True)
+    return dataf.sort_values("_c0").reset_index().drop("index", axis =1)
+    
 
     
 
@@ -216,7 +216,7 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    table = pd.DataFrame()
+    dataf = pd.DataFrame()
     for letra in tbl1["_c0"].unique():
         df = np.where(tbl1["_c0"]==letra,tbl1["_c4"],"")
         df = np.delete(df, np.where(df == ""))
@@ -225,8 +225,11 @@ def pregunta_11():
             string = string + str(item) + ","
         string = string[:-1]
         temp = pd.DataFrame({"_c0":[letra], "_c4": string})
-        table = table.append(temp, ignore_index=True)
-    return table
+        dataf = dataf.append(temp, ignore_index=True)
+
+    return dataf
+    
+   
 
 
 def pregunta_12():
@@ -244,19 +247,19 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    dict = {}
+    dictionary = {}
     for i in range (len(tbl2)):
-        if tbl2.loc[i]["_c0"] in dict:
-            dict[tbl2.loc[i]["_c0"]] = dict[tbl2.loc[i]["_c0"]] + "," + tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
+        if tbl2.loc[i]["_c0"] in dictionary:
+            dictionary[tbl2.loc[i]["_c0"]] = dictionary[tbl2.loc[i]["_c0"]] + "," + tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
         else:
             dict[tbl2.loc[i]["_c0"]] = tbl2.loc[i]["_c5a"] + ":" + str(tbl2.loc[i]["_c5b"])
             
-    for key,value in dict.items():
+    for key,value in dictionary.items():
         lista = value.split(",")
         lista.sort()
         dict[k] = lista
-    table1 = pd.DataFrame({"_c0": dict.keys(),
-            "_c5a" : dict.values()})
+    table1 = pd.DataFrame({"_c0": dictionary.keys(),
+            "_c5a" : dictionary.values()})
 
     lista = []
     
